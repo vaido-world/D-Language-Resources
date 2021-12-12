@@ -50,13 +50,16 @@ version (Windows) extern (Windows)
 				
 				import core.stdc.stdio;
 				import core.stdc.stdlib;
-				lpDisplayBuf = cast(LPVOID)LocalAlloc(LMEM_ZEROINIT, 
-					(lstrlen(cast(LPCTSTR)lpMsgBuf)  + 40) * char.sizeof); //What is the Size of TCHAR? 
-				StringCchPrintf(cast(LPTSTR)lpDisplayBuf,  // Unsure in which header the function is // strsafe.h
-					LocalSize(lpDisplayBuf) / sizeof(TCHAR), 
-					TEXT(" failed with error %d: %s"), // Same for the TEXT // Pointer to the string to interpret as UTF-16 or ANSI. // winnt.h TEXT macro // https://docs.microsoft.com/en-us/windows/win32/api/winnt/nf-winnt-text
-					 dw, lpMsgBuf); 
-				MessageBox(NULL, cast(LPCTSTR)lpDisplayBuf, TEXT("Error"), MB_OK); 
+				import std.utf;
+				writeln(lpMsgBuf);
+				//lpDisplayBuf = cast(LPVOID)LocalAlloc(LMEM_ZEROINIT, 
+				//	(lstrlen(cast(LPCTSTR)lpMsgBuf)  + 40) * char.sizeof); //What is the Size of TCHAR? 
+				//StringCchPrintf(cast(LPTSTR)lpDisplayBuf,  // Unsure in which header the function is // strsafe.h
+				//	LocalSize(lpDisplayBuf) / sizeof(TCHAR), 
+				//	
+				//	" failed with error %d: %s", // Same for the TEXT // Pointer to the string to interpret as UTF-16 or ANSI. // winnt.h TEXT macro // https://docs.microsoft.com/en-us/windows/win32/api/winnt/nf-winnt-text
+				//	 dw, lpMsgBuf); 
+				MessageBox(NULL, cast(LPCTSTR)lpDisplayBuf, "Error", MB_OK); 
 			
 				LocalFree(lpMsgBuf);
 				LocalFree(lpDisplayBuf);
