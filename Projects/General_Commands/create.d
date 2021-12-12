@@ -31,39 +31,15 @@ version (Windows) extern (Windows)
 		// https://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea#return-value
 		writeln("Failed to create a file.");
 		
-		extern(C) size_t sizeof();
 
-		LPVOID lpMsgBuf;
-		LPVOID lpDisplayBuf;
+		// https://docs.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-
+		// ERROR_FILE_EXISTS 80 (0x50)
+
+
 		DWORD dw = GetLastError(); 
-		   FormatMessage(
-				FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-				FORMAT_MESSAGE_FROM_SYSTEM |
-				FORMAT_MESSAGE_IGNORE_INSERTS,
-				NULL,
-				dw,
-				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-				cast(LPTSTR) &lpMsgBuf,
-				0, 
-				NULL 
-			);
-				
-				import core.stdc.stdio;
-				import core.stdc.stdlib;
-				import std.utf;
-				writeln(lpMsgBuf);
-				//lpDisplayBuf = cast(LPVOID)LocalAlloc(LMEM_ZEROINIT, 
-				//	(lstrlen(cast(LPCTSTR)lpMsgBuf)  + 40) * char.sizeof); //What is the Size of TCHAR? 
-				//StringCchPrintf(cast(LPTSTR)lpDisplayBuf,  // Unsure in which header the function is // strsafe.h
-				//	LocalSize(lpDisplayBuf) / sizeof(TCHAR), 
-				//	
-				//	" failed with error %d: %s", // Same for the TEXT // Pointer to the string to interpret as UTF-16 or ANSI. // winnt.h TEXT macro // https://docs.microsoft.com/en-us/windows/win32/api/winnt/nf-winnt-text
-				//	 dw, lpMsgBuf); 
-				MessageBox(NULL, cast(LPCTSTR)lpDisplayBuf, "Error", MB_OK); 
+		writeln(dw);
 			
-				LocalFree(lpMsgBuf);
-				LocalFree(lpDisplayBuf);
-				ExitProcess(dw); 
+		
 			}
 
 	
